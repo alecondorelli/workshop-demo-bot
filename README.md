@@ -12,12 +12,10 @@ The key stays on the server. API usage is billed to your OpenAI account. A worki
 
 ## Architecture
 
-The browser sends up to 12 recent messages, the editable system prompt, and knowledge notes to `/api/chat`. The server validates the inputs and requests embeddings from `text-embedding-3-small` for the question and notes. It ranks the notes by cosine similarity, then sends the two closest notes with the prompt to `gpt-4o-mini`. Vectors are held in memory for that request and recomputed on every question; this is a small ephemeral vector store, not a hosted vector database. Each question incurs embedding and chat API costs.
+The browser sends the conversation and editable system prompt to `/api/chat`. The server searches an OpenAI-hosted vector store, adds relevant chunks to the model context, and calls `gpt-6-luna`. The model may request the fixed illustrative schedule tool. Uploads are sent to OpenAI, indexed and shared across all users; supported formats are PDF, DOCX, TXT and Markdown up to 4 MB. Indexing is asynchronous, so files may take a short time to become searchable. The prompt is saved in the current browser and is not shared.
 
-In Behind the scenes, edit the prompt and add, change or remove notes. Edits apply to the next message; select Save changes to retain them in that browser across refreshes. They are not shared between users or devices. Do not enter confidential information: the notes and conversation are sent to OpenAI and stored in browser storage when saved. The fixed illustrative schedule tool is separate from the editable notes.
-
-The dashboard shows selected notes, tool calls, relevant request fields, model responses and usage for the latest successful interaction. It excludes the API key and server configuration. The server limits the prompt to 4,000 characters, up to 12 notes of 2,000 characters each, up to 12 conversation messages of 2,000 characters each, and output to 500 tokens per model call. These bounds are not a rate limiter. A public deployment needs appropriate access controls, abuse prevention and spending limits before a key is configured.
+Set both `OPENAI_API_KEY` and `OPENAI_VECTOR_STORE_ID` on the server. The vector store must belong to the OpenAI project associated with the key. The app is a public demonstration: any visitor can upload files, change shared answers, and incur API or storage charges. Do not upload confidential information. The app has basic input bounds but no authentication or distributed rate limiting.
 
 ## Vercel deployment
 
-Import the project into Vercel, select the Next.js framework preset, and add `OPENAI_API_KEY` as a server-side environment variable in project settings. Use the default build command. Do not commit `.env.local` or put the key in a `NEXT_PUBLIC_` variable.
+Import the project into Vercel, select the Next.js framework preset, and add `OPENAI_API_KEY` and `OPENAI_VECTOR_STORE_ID` as server-side environment variables in project settings. Use the default build command. Do not commit `.env.local` or put the key in a `NEXT_PUBLIC_` variable.

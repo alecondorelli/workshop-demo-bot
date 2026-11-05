@@ -6,3 +6,5 @@ body{background:#f6f7f9;color:#222831;font-family:Arial,Helvetica,sans-serif}.sh
 .dashboard .settings + .settings{margin-top:16px}.upload-button{display:inline-block!important;background:#102961;color:#fff!important;padding:11px 16px;border-radius:8px;font-size:13px!important;font-weight:600;cursor:pointer}.upload-button input{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}.upload-button:focus-within{outline:2px solid #496aa8;outline-offset:3px}.upload-help{font-size:12px!important}
 
 .knowledge-divider{border-top:1px solid #e8ebf0;margin:24px 0 16px;padding-top:18px;color:#78828f;font-size:13px}.settings form textarea{margin-top:8px}.primary-button:disabled,.secondary-button:disabled{opacity:.5;cursor:not-allowed}
+
+.workspace-header .workshop-date{font-size:12px;font-weight:600;color:#526789;margin:0 0 12px}
